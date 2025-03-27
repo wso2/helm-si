@@ -91,11 +91,9 @@ spec:
             - "{{ . }}"
             {{- end }}
           ports:
-            - containerPort: 9766
+            - containerPort: {{ .Values.wso2.config.transport.http.default }}
               protocol: TCP
-            - containerPort: 9446
-              protocol: TCP
-            - containerPort: 4000
+            - containerPort: {{ .Values.wso2.config.transport.http.msf4jHttps }}
               protocol: TCP
           resources:
             requests:

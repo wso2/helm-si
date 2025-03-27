@@ -141,6 +141,10 @@ wso2:
         fileName: "client-truststore.jks"
         # -- Primary truststore password
         password: ""
+    transport:
+      http:
+        default: 9090
+        msf4jHttps: 9443
   deployment:
     securityContext:
       # -- Enable/Disable AppArmor (https://kubernetes.io/docs/tutorials/security/apparmor/)

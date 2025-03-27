@@ -8,9 +8,7 @@ spec:
   selector:
     statefulset: {{ template "resource.prefix" . }}-{{ .Release.Name }}
   ports:
-  - port: 9446
+  - port: {{ .Values.wso2.config.transport.http.msf4jHttps }}
     name: management
-  - port: 9766
+  - port: {{ .Values.wso2.config.transport.http.default }}
     name: http
-  - port: 4000
-    name: additional
