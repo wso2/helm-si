@@ -101,3 +101,4 @@ wso2:
 
     # -- (list) Environment variables for the Streaming integrator deployment
     envs:
+    mountSiddhiApps: false
