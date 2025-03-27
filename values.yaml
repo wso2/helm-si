@@ -97,6 +97,10 @@ gcp:
       ip: ""
       # -- Pre-provisioned Filestore instance share name
       volume: ""
+      # -- Tier of the FileStore
+    tier: ""
+    # -- Network of the FileStore
+    network: ""
 wso2:
   subscription:
     # -- WSO2 subscription username
