@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-headless
+  namespace: {{ .Release.Namespace }}
+spec:
+  clusterIP: None
+  selector:
+    statefulset: {{ template "resource.prefix" . }}-{{ .Release.Name }}
+  ports:
+  - port: 9446
+    name: management
+  - port: 9766
+    name: http
+  - port: 4000
+    name: additional
