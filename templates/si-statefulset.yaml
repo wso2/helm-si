@@ -115,6 +115,15 @@ spec:
             - name: wso2si-yaml
               mountPath: /home/wso2-config/conf/deployment.yaml
               subPath: deployment.yaml
+            - name: wso2si-log4j2-yaml
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/conf/server/log4j2.xml
+              subPath: log4j2.xml
+            - name: wso2si-secret-properties
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/conf/server/secrets.properties
+              subPath: secrets.properties
+            - name: wso2si-master-keys
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/conf/server/master-keys.yaml
+              subPath: master-keys.yaml
             {{- if .Values.wso2.deployment.mountSiddhiApps }}
             - name: siddhi-apps
               mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/wso2/server/deployment/siddhi-files
@@ -142,6 +151,15 @@ spec:
         - name: wso2si-yaml
           configMap:
             name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-yaml
+        - name: wso2si-log4j2-yaml
+          configMap:
+            name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-log4j2-yaml
+        - name: wso2si-secret-properties
+          configMap:
+            name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-secret-properties
+        - name: wso2si-master-keys
+          configMap:
+            name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-master-keys
         {{- if .Values.wso2.deployment.JKSSecretName }}
         - name: keystores
           secret:
