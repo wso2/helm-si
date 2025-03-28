@@ -84,6 +84,22 @@ spec:
               protocol: TCP
             - containerPort: {{ .Values.wso2.config.databridge.thrift.sslPort }}
               protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - nc -z localhost {{ .Values.wso2.config.transport.http.msf4jHttps }}
+            initialDelaySeconds: {{ .Values.wso2.deployment.probes.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.wso2.deployment.probes.livenessProbe.periodSeconds }}
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - nc -z localhost {{ .Values.wso2.config.transport.http.msf4jHttps }}
+            initialDelaySeconds: {{ .Values.wso2.deployment.probes.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.wso2.deployment.probes.readinessProbe.periodSeconds }}
           resources:
             requests:
               memory: {{ .Values.wso2.deployment.resources.requests.memory }}

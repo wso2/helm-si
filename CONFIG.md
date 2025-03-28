@@ -46,14 +46,16 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | provider | string | `""` | -------------------------------------------------------------------------------------- |
 | wso2.config.admin.password | string | `""` | Super admin password |
 | wso2.config.admin.username | string | `""` | Super admin username |
-| wso2.config.keyStore.internal.alias | string | `"wso2carbon"` | Internal keystore alias |
-| wso2.config.keyStore.internal.fileName | string | `"wso2carbon.jks"` | Internal keystore file name |
-| wso2.config.keyStore.internal.keyPassword | string | `""` | Internal keystore key password |
-| wso2.config.keyStore.internal.password | string | `""` | Internal keystore password |
+| wso2.config.databridge.thrift.sslPort | int | `7711` |  |
+| wso2.config.databridge.thrift.tcpPort | int | `7611` |  |
 | wso2.config.keyStore.primary.alias | string | `"wso2carbon"` | Primary keystore alias |
 | wso2.config.keyStore.primary.fileName | string | `"wso2carbon.jks"` | Primary keystore file name |
 | wso2.config.keyStore.primary.keyPassword | string | `""` | Primary keystore key password |
 | wso2.config.keyStore.primary.password | string | `""` | Primary keystore password |
+| wso2.config.keyStore.secureVault.alias | string | `"wso2carbon"` | Secure vault alias |
+| wso2.config.keyStore.secureVault.fileName | string | `"securevault.jks"` | Secure vault file name |
+| wso2.config.keyStore.secureVault.keyPassword | string | `""` | Secure vault key password |
+| wso2.config.keyStore.secureVault.password | string | `""` | Secure vault password |
 | wso2.config.secureVault.enabled | bool | `false` | Enable/Disable secure vault |
 | wso2.config.transport.http.default | int | `9090` |  |
 | wso2.config.transport.http.msf4jHttps | int | `9443` |  |
@@ -70,6 +72,10 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | wso2.deployment.image.tag | string | `"4.3.0"` | Container image tag |
 | wso2.deployment.imagePullSecrets | string | `""` | imagePullSecrets for private docker registry |
 | wso2.deployment.mountSiddhiApps | bool | `false` |  |
+| wso2.deployment.probes.livenessProbe.initialDelaySeconds | int | `180` |  |
+| wso2.deployment.probes.livenessProbe.periodSeconds | int | `10` |  |
+| wso2.deployment.probes.readinessProbe.initialDelaySeconds | int | `180` |  |
+| wso2.deployment.probes.readinessProbe.periodSeconds | int | `10` |  |
 | wso2.deployment.replicas | int | `1` | Number of deployment replicas |
 | wso2.deployment.resources.jvm.memory.xms | string | `"512m"` | The minimum amount of memory that should be allocated for the JVM |
 | wso2.deployment.resources.jvm.memory.xmx | string | `"1024m"` | The maximum amount of memory that should be allocated for the JVM |
