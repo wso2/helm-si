@@ -1,6 +1,3 @@
-# -- Container registry (When running on a local Kubernetes cluster using local image, make this empty)
-containerRegistry: "wso2"
-
 wso2:
   subscription:
     # -- WSO2 subscription username
@@ -62,6 +59,8 @@ wso2:
     # -- imagePullSecrets for private docker registry
     imagePullSecrets: ""
     image:
+      # -- Container registry (When running on a local Kubernetes cluster using local image, make this empty)
+      containerRegistry: "wso2"
       # -- Container image repository name
       repository: "wso2si"
       # -- Container image digest

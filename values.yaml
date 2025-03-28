@@ -9,8 +9,6 @@
 #
 # ----------------------------------------------------------------------------------------
 provider: ""
-# -- Container registry (When running on a local Kubernetes cluster using local image, make this empty)
-containerRegistry: "docker.wso2.com"
 # AWS service configurations
 aws:
   # -- AWS IAM service account name
@@ -162,6 +160,8 @@ wso2:
     # -- imagePullSecrets for private docker registry
     imagePullSecrets: ""
     image:
+      # -- Container registry (When running on a local Kubernetes cluster using local image, make this empty)
+      containerRegistry: "docker.wso2.com"
       # -- Container image repository name
       repository: "wso2si"
       # -- Container image digest
