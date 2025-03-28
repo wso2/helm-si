@@ -59,6 +59,9 @@ data:
     test -d ${artifact_volume} && [[ "$(ls -A ${artifact_volume})" ]] && cp -RL ${artifact_volume}/* ${WSO2_SERVER_HOME}/
     {{ template "cp-secret-to-password-tmp" . }}
 
+    sed "s/id: \"\$(HOSTNAME)\"/id: \"$HOSTNAME\"/" /home/wso2-config/conf/deployment.yaml \
+    > /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/conf/server/deployment.yaml
+
     # start WSO2 server
     sh ${WSO2_SERVER_HOME}/bin/server.sh "$@"
     {{- end }}

@@ -44,21 +44,6 @@ spec:
       labels:
         statefulset: {{ template "resource.prefix" . }}-{{ .Release.Name }}
     spec:
-      initContainers:
-      - name: config-modifier
-        image: busybox
-        command:
-          - /bin/sh
-          - -c
-          - |
-            cp /tmp/wso2-config/deployment.yaml /home/wso2-config/conf/
-            sed -i "s/id: \"\$(HOSTNAME)\"/id: \"$HOSTNAME\"/" /home/wso2-config/conf/deployment.yaml
-        volumeMounts:
-          - name: wso2si-yaml
-            mountPath: /tmp/wso2-config/deployment.yaml
-            subPath: deployment.yaml
-          - name: conf-dir
-            mountPath: /home/wso2-config/conf/
       {{- if and (eq "aws" .Values.provider) (.Values.aws.serviceAccountName) }}
       serviceAccountName: {{ .Values.aws.serviceAccountName }}
       {{- end }}
@@ -123,8 +108,8 @@ spec:
             {{- end }}
             {{- end }}
           volumeMounts:
-            - name: conf-dir
-              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/conf/server/deployment.yaml
+            - name: wso2si-yaml
+              mountPath: /home/wso2-config/conf/deployment.yaml
               subPath: deployment.yaml
             {{- if .Values.wso2.deployment.mountSiddhiApps }}
             - name: siddhi-apps
@@ -150,8 +135,6 @@ spec:
               subPath: docker-entrypoint.sh
             {{- end }}
       volumes:
-        - name: conf-dir
-          emptyDir: {}
         - name: wso2si-yaml
           configMap:
             name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-yaml
