@@ -58,6 +58,10 @@ wso2:
       http:
         default: 9090
         msf4jHttps: 9443
+    databridge:
+      thrift:
+        tcpPort: 7611
+        sslPort: 7711
   deployment:
     securityContext:
       # -- Enable/Disable AppArmor (https://kubernetes.io/docs/tutorials/security/apparmor/)

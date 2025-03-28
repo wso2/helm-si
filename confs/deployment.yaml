@@ -118,8 +118,8 @@ databridge.config:
       type: Thrift
         # Data receiver properties
       properties:
-        tcpPort: '7611'
-        sslPort: '7711'
+        tcpPort: {{ .Values.wso2.config.databridge.thrift.tcpPort | quote }}
+        sslPort: {{ .Values.wso2.config.databridge.thrift.sslPort | quote }}
 
   -
       # Data receiver configuration

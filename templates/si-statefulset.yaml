@@ -80,6 +80,10 @@ spec:
               protocol: TCP
             - containerPort: {{ .Values.wso2.config.transport.http.msf4jHttps }}
               protocol: TCP
+            - containerPort: {{ .Values.wso2.config.databridge.thrift.tcpPort }}
+              protocol: TCP
+            - containerPort: {{ .Values.wso2.config.databridge.thrift.sslPort }}
+              protocol: TCP
           resources:
             requests:
               memory: {{ .Values.wso2.deployment.resources.requests.memory }}

@@ -30,3 +30,7 @@ spec:
     name: management
   - port: {{ .Values.wso2.config.transport.http.default }}
     name: http
+  - port: {{ .Values.wso2.config.databridge.thrift.tcpPort }}
+    name: thrift-tcp
+  - port: {{ .Values.wso2.config.databridge.thrift.sslPort }}
+    name: thrift-ssl
