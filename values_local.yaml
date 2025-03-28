@@ -39,14 +39,14 @@ wso2:
         password: "wso2carbon"
         # -- Primary keystore key password
         keyPassword: "wso2carbon"
-      internal:
-        # -- Internal keystore file name
-        fileName: "wso2carbon.jks"
-        # -- Internal keystore alias
+      secureVault:
+        # -- Secure vault file name
+        fileName: "securevault.jks"
+        # -- Secure vault alias
         alias: "wso2carbon"
-        # -- Internal keystore password
-        password: "wso2carbon"
-        # -- Internal keystore key password
+        # -- Secure vault password
+        password: ""
+        # -- Secure vault key password
         keyPassword: "wso2carbon"
     trustStore:
       primary:

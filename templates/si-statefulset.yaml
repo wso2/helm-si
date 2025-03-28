@@ -120,10 +120,10 @@ spec:
             - name: keystores
               mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/resources/security/{{ .Values.wso2.config.keyStore.primary.fileName }}
               subPath: {{ .Values.wso2.config.keyStore.primary.fileName }}
-              # Internal keystore
+              # Secure vault
             - name: keystores
-              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/resources/security/{{ .Values.wso2.config.keyStore.internal.fileName }}
-              subPath: {{ .Values.wso2.config.keyStore.internal.fileName }}
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/resources/security/{{ .Values.wso2.config.keyStore.secureVault.fileName }}
+              subPath: {{ .Values.wso2.config.keyStore.secureVault.fileName }}
               # Primary Truststore
             - name: keystores
               mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/resources/security/{{ .Values.wso2.config.trustStore.primary.fileName }}
