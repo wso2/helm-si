@@ -16,7 +16,6 @@
 # under the License.
 #------------------------------------------------------------------------------------
 
-
 ## Loads the deployment.toml file which is inside the confs directory. This `tpl` function is used here because it has to replace the
 ## template variables/parameters within it.
 

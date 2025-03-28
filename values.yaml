@@ -105,6 +105,22 @@ wso2:
     username: ""
     # -- WSO2 subscription password
     password: ""
+  ingress:
+    # -- Enable Ingress for SI
+    enabled: true
+    # -- Ingress class name
+    ingressClassName: ""
+    # -- (list) Ingress annotations
+    annotations:
+    # -- K8s TLS secret for configured hostname
+    tlsSecret: ""
+    ratelimit:
+      # -- Ingress rate limit
+      enabled: false
+      # -- Ingress ratelimit zone name
+      zoneName: ""
+      # -- Ingress ratelimit burst limit
+      burstLimit: ""
   config:
     admin:
       # -- Super admin username
