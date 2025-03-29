@@ -8,7 +8,7 @@ wso2:
     # -- Enable Ingress for SI
     enabled: true
     # -- Ingress class name
-    ingressClassName: ""
+    ingressClassName: "nginx"
     # -- (list) Ingress annotations
     annotations:
     # -- K8s TLS secret for configured hostname
@@ -80,9 +80,9 @@ wso2:
     imagePullSecrets: ""
     image:
       # -- Container registry (When running on a local Kubernetes cluster using local image, make this empty)
-      containerRegistry: "wso2"
+      containerRegistry: "docker.io"
       # -- Container image repository name
-      repository: "wso2si"
+      repository: "wso2/wso2si"
       # -- Container image digest
       digest: ""
       # -- Container image tag

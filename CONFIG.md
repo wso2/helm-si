@@ -61,20 +61,20 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | wso2.config.transport.http.msf4jHttps | int | `9443` |  |
 | wso2.config.trustStore.primary.fileName | string | `"client-truststore.jks"` | Primary truststore file name |
 | wso2.config.trustStore.primary.password | string | `""` | Primary truststore password |
-| wso2.deployment.BuildVersion | string | `"4.3.0"` | Build version of the Micro Integrator |
+| wso2.deployment.BuildVersion | string | `"4.3.0"` | Build version of the Streaming Integrator |
 | wso2.deployment.JKSSecretName | string | `""` | K8s secret name which contains JKS files |
-| wso2.deployment.envs | list | `nil` | Environment variables for the Micro integrator deployment |
-| wso2.deployment.hostname | string | `"si.wso2.com"` | Hostname of the Micro Integrator deployment |
-| wso2.deployment.image.containerRegistry | string | `"docker.wso2.com"` | Container registry (When running on a local Kubernetes cluster using local image, make this empty) |
+| wso2.deployment.envs | list | `nil` | Environment variables for the Streaming integrator deployment |
+| wso2.deployment.hostname | string | `"si.wso2.com"` | Hostname of the Streaming Integrator deployment |
+| wso2.deployment.image.containerRegistry | string | `"docker.io"` | Container registry (When running on a local Kubernetes cluster using local image, make this empty) |
 | wso2.deployment.image.digest | string | `""` | Container image digest |
 | wso2.deployment.image.pullPolicy | string | `"IfNotPresent"` | Container image pull policy. Refer (https://kubernetes.io/docs/concepts/containers/images/#updating-images) |
-| wso2.deployment.image.repository | string | `"wso2si"` | Container image repository name |
-| wso2.deployment.image.tag | string | `"4.3.0"` | Container image tag |
+| wso2.deployment.image.repository | string | `"wso2/wso2si"` | Container image repository name |
+| wso2.deployment.image.tag | string | `"4.3.0-ubuntu"` | Container image tag |
 | wso2.deployment.imagePullSecrets | string | `""` | imagePullSecrets for private docker registry |
 | wso2.deployment.mountSiddhiApps | bool | `false` |  |
-| wso2.deployment.probes.livenessProbe.initialDelaySeconds | int | `180` |  |
+| wso2.deployment.probes.livenessProbe.initialDelaySeconds | int | `60` |  |
 | wso2.deployment.probes.livenessProbe.periodSeconds | int | `10` |  |
-| wso2.deployment.probes.readinessProbe.initialDelaySeconds | int | `180` |  |
+| wso2.deployment.probes.readinessProbe.initialDelaySeconds | int | `60` |  |
 | wso2.deployment.probes.readinessProbe.periodSeconds | int | `10` |  |
 | wso2.deployment.replicas | int | `1` | Number of deployment replicas |
 | wso2.deployment.resources.jvm.memory.xms | string | `"512m"` | The minimum amount of memory that should be allocated for the JVM |
@@ -90,7 +90,7 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | wso2.deployment.strategy.rollingUpdate.maxUnavailable | int | `0` | The maximum number of pods that can be unavailable during the update. |
 | wso2.ingress.annotations | list | `nil` | Ingress annotations |
 | wso2.ingress.enabled | bool | `true` | Enable Ingress for SI |
-| wso2.ingress.ingressClassName | string | `""` | Ingress class name |
+| wso2.ingress.ingressClassName | string | `"nginx"` | Ingress class name |
 | wso2.ingress.ratelimit.burstLimit | string | `""` | Ingress ratelimit burst limit |
 | wso2.ingress.ratelimit.enabled | bool | `false` | Ingress rate limit |
 | wso2.ingress.ratelimit.zoneName | string | `""` | Ingress ratelimit zone name |

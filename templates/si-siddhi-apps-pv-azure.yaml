@@ -25,13 +25,14 @@ spec:
   accessModes:
     - ReadWriteMany
   capacity:
-    storage: {{ .Values.azure.persistence.capacity }}
+    storage: {{ .Values.azure.storage.capacity }}
   persistentVolumeReclaimPolicy: Retain
   volumeMode: Filesystem
+  storageClassName: {{ .Values.azure.storage.storageClass }}
   azureFile:
-    secretName: {{ .Values.azure.persistence.secretName }}
+    secretName: {{ .Values.azure.storage.secretName }}
     secretNamespace: {{ .Release.Namespace }}
-    shareName: {{ .Values.azure.persistence.fileShare }}
+    shareName: {{ .Values.azure.storage.fileShare }}
   mountOptions:
     - dir_mode=0777
     - file_mode=0777

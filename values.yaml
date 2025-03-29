@@ -109,7 +109,7 @@ wso2:
     # -- Enable Ingress for SI
     enabled: true
     # -- Ingress class name
-    ingressClassName: ""
+    ingressClassName: "nginx"
     # -- (list) Ingress annotations
     annotations:
     # -- K8s TLS secret for configured hostname
@@ -172,9 +172,9 @@ wso2:
       seccompProfile: true
       # -- The UID to run the entrypoint of the container process
       runAsUser: ""
-    # -- Hostname of the Micro Integrator deployment
+    # -- Hostname of the Streaming Integrator deployment
     hostname: "si.wso2.com"
-    # -- Build version of the Micro Integrator
+    # -- Build version of the Streaming Integrator
     BuildVersion: "4.3.0"
     # -- K8s secret name which contains JKS files
     JKSSecretName: ""
@@ -182,13 +182,13 @@ wso2:
     imagePullSecrets: ""
     image:
       # -- Container registry (When running on a local Kubernetes cluster using local image, make this empty)
-      containerRegistry: "docker.wso2.com"
+      containerRegistry: "docker.io"
       # -- Container image repository name
-      repository: "wso2si"
+      repository: "wso2/wso2si"
       # -- Container image digest
       digest: ""
       # -- Container image tag
-      tag: "4.3.0"
+      tag: "4.3.0-ubuntu"
       # -- Container image pull policy. Refer (https://kubernetes.io/docs/concepts/containers/images/#updating-images)
       pullPolicy: IfNotPresent
 
@@ -202,7 +202,7 @@ wso2:
         # -- The maximum number of pods that can be unavailable during the update.
         maxUnavailable: 0
 
-    # These are the minimum resource recommendations for running WSO2 Micro Integrator
+    # These are the minimum resource recommendations for running WSO2 Streaming Integrator
     resources:
       requests:
         # -- The minimum amount of memory that should be allocated for a Pod
@@ -224,7 +224,7 @@ wso2:
           # -- The maximum amount of memory that should be allocated for the JVM
           xmx: "1024m"
 
-    # -- (list) Environment variables for the Micro integrator deployment
+    # -- (list) Environment variables for the Streaming integrator deployment
     envs:
     # wso2_oh_sample_baseUrl: "http://localhost:8290/services/odata"
     mountSiddhiApps: false
@@ -233,12 +233,12 @@ wso2:
       # Indicates whether the container is running
       livenessProbe:
         # Number of seconds after the container has started before liveness probes are initiated
-        initialDelaySeconds: 180
+        initialDelaySeconds: 60
         # How often (in seconds) to perform the probe
         periodSeconds: 10
       # Indicates whether the container is ready to service requests
       readinessProbe:
         # Number of seconds after the container has started before readiness probes are initiated
-        initialDelaySeconds: 180
+        initialDelaySeconds: 60
         # How often (in seconds) to perform the probe
         periodSeconds: 10

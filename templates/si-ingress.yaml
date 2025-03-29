@@ -22,8 +22,9 @@ kind: Ingress
 metadata:
   name: {{ template "resource.prefix" . }}-{{ .Release.Name }}
   namespace : {{ .Release.Namespace }}
-{{- if .Values.wso2.ingress.annotations }}
   annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+{{- if .Values.wso2.ingress.annotations }}
 {{ toYaml .Values.wso2.ingress.annotations | indent 4 }}
 {{- if .Values.wso2.ingress.ratelimit.enabled }}
     nginx.ingress.kubernetes.io/configuration-snippet: |
@@ -45,7 +46,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ template "resource.prefix" . }}-{{ .Release.Name }}
+                name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-headless
                 port:
                   number: {{ .Values.wso2.config.transport.http.msf4jHttps }}
 {{- end}}
