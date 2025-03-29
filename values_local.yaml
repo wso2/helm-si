@@ -13,6 +13,10 @@ wso2:
     annotations:
     # -- K8s TLS secret for configured hostname
     tlsSecret: ""
+    # -- Controls how the Ingress communicates with backend services
+    backendProtocol: "AUTO_HTTP"
+    # -- Controls how the  redirection of HTTPS if TLS is enabled for that ingress.
+    sslRedirect: "false"
     ratelimit:
       # -- Ingress rate limit
       enabled: false

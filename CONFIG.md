@@ -89,11 +89,13 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | wso2.deployment.strategy.rollingUpdate.maxSurge | int | `1` | The maximum number of pods that can be scheduled above the desired number of pods. |
 | wso2.deployment.strategy.rollingUpdate.maxUnavailable | int | `0` | The maximum number of pods that can be unavailable during the update. |
 | wso2.ingress.annotations | list | `nil` | Ingress annotations |
+| wso2.ingress.backendProtocol | string | `"AUTO_HTTP"` | Controls how the Ingress communicates with backend services |
 | wso2.ingress.enabled | bool | `true` | Enable Ingress for SI |
 | wso2.ingress.ingressClassName | string | `"nginx"` | Ingress class name |
 | wso2.ingress.ratelimit.burstLimit | string | `""` | Ingress ratelimit burst limit |
 | wso2.ingress.ratelimit.enabled | bool | `false` | Ingress rate limit |
 | wso2.ingress.ratelimit.zoneName | string | `""` | Ingress ratelimit zone name |
+| wso2.ingress.sslRedirect | string | `"false"` | Controls how the  redirection of HTTPS if TLS is enabled for that ingress. |
 | wso2.ingress.tlsSecret | string | `""` | K8s TLS secret for configured hostname |
 | wso2.subscription.password | string | `""` | WSO2 subscription password |
 | wso2.subscription.username | string | `""` | WSO2 subscription username |

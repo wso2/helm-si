@@ -23,7 +23,8 @@ metadata:
   name: {{ template "resource.prefix" . }}-{{ .Release.Name }}
   namespace : {{ .Release.Namespace }}
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: {{ .Values.wso2.ingress.sslRedirect | quote }}
+    nginx.ingress.kubernetes.io/backend-protocol: {{ .Values.wso2.ingress.backendProtocol | quote }}
 {{- if .Values.wso2.ingress.annotations }}
 {{ toYaml .Values.wso2.ingress.annotations | indent 4 }}
 {{- if .Values.wso2.ingress.ratelimit.enabled }}
