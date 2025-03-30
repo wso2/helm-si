@@ -129,7 +129,7 @@ spec:
             {{- end }}
           volumeMounts:
             - name: wso2si-yaml
-              mountPath: /home/wso2-config/conf/deployment.yaml
+              mountPath: /home/wso2carbon/wso2-config/conf/deployment.yaml
               subPath: deployment.yaml
             - name: wso2si-log4j2-yaml
               mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/conf/server/log4j2.xml
