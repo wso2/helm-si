@@ -53,9 +53,9 @@ wso2.transport.http:
       host: "0.0.0.0"
       port: {{ .Values.wso2.config.transport.http.msf4jHttps }}
       scheme: https
-      keyStoreFile: "${carbon.home}/resources/security/wso2carbon.jks"
-      keyStorePassword: wso2carbon
-      certPass: wso2carbon
+      keyStoreFile: {{ .Values.wso2.config.transport.http.keyStoreFile | quote }}
+      keyStorePassword: {{ .Values.wso2.config.transport.http.keyStorePassword }}
+      certPass: {{ .Values.wso2.config.transport.http.certPass }}
 
   senderConfigurations:
     -
@@ -77,15 +77,15 @@ siddhi.stores.query.api:
     -
       id: "default"
       host: "0.0.0.0"
-      port: 7070
+      port: {{ .Values.wso2.config.queryApi.listenerConfigurations.default }}
     -
       id: "msf4j-https"
       host: "0.0.0.0"
-      port: 7444
+      port: {{ .Values.wso2.config.queryApi.listenerConfigurations.msf4jHttps }}
       scheme: https
-      keyStoreFile: "${carbon.home}/resources/security/wso2carbon.jks"
-      keyStorePassword: wso2carbon
-      certPass: wso2carbon
+      keyStoreFile: {{ .Values.wso2.config.queryApi.listenerConfigurations.keyStoreFile | quote }}
+      keyStorePassword: {{ .Values.wso2.config.queryApi.listenerConfigurations.keyStorePassword }}
+      certPass: {{ .Values.wso2.config.queryApi.listenerConfigurations.certPass }}
 
   # Configuration used for the databridge communication
 databridge.config:
@@ -100,10 +100,10 @@ databridge.config:
   eventBufferSize: 2000
     # Keystore file path
     # THIS IS A MANDATORY FIELD
-  keyStoreLocation : ${sys:carbon.home}/resources/security/wso2carbon.jks
+  keyStoreLocation : {{ .Values.wso2.config.databridge.keyStoreLocation }}
     # Keystore password
     # THIS IS A MANDATORY FIELD
-  keyStorePassword : wso2carbon
+  keyStorePassword : {{ .Values.wso2.config.databridge.keyStorePassword }}
     # Session Timeout value in mins
     # THIS IS A MANDATORY FIELD
   clientTimeoutMin: 30
@@ -129,8 +129,8 @@ databridge.config:
       type: Binary
         # Data receiver properties
       properties:
-        tcpPort: '9611'
-        sslPort: '9711'
+        tcpPort: {{ .Values.wso2.config.databridge.binary.tcpPort | quote }}
+        sslPort: {{ .Values.wso2.config.databridge.binary.sslPort | quote }}
         tcpReceiverThreadPoolSize: '100'
         sslReceiverThreadPoolSize: '100'
         hostName: 0.0.0.0
@@ -152,9 +152,9 @@ data.agent.config:
         # Data publisher strategy
       publishingStrategy: async
         # Trust store path
-      trustStorePath: '${sys:carbon.home}/resources/security/client-truststore.jks'
+      trustStorePath: {{ .Values.wso2.config.dataAgent.thrift.trustStorePath | quote }}
         # Trust store password
-      trustStorePassword: 'wso2carbon'
+      trustStorePassword: {{ .Values.wso2.config.dataAgent.thrift.trustStorePassword | quote }}
         # Queue Size
       queueSize: 32768
         # Batch Size
@@ -201,9 +201,9 @@ data.agent.config:
         # Data publisher strategy
       publishingStrategy: async
         # Trust store path
-      trustStorePath: '${sys:carbon.home}/resources/security/client-truststore.jks'
+      trustStorePath: {{ .Values.wso2.config.dataAgent.binary.trustStorePath | quote }}
         # Trust store password
-      trustStorePassword: 'wso2carbon'
+      trustStorePassword: {{ .Values.wso2.config.dataAgent.binary.trustStorePassword | quote }}
         # Queue Size
       queueSize: 32768
         # Batch Size
@@ -242,7 +242,7 @@ data.agent.config:
 # This is the main configuration for metrics
 wso2.metrics:
   # Enable Metrics
-  enabled: false
+  enabled: {{ .Values.wso2.config.metrics.enabled }}
   reporting:
     console:
       - # The name for the Console Reporter
@@ -356,8 +356,8 @@ wso2.datasources:
           isAutoCommit: false
           jdbcUrl: "jdbc:h2:${sys:carbon.home}/wso2/${sys:wso2.runtime}/database/WSO2_CLUSTER_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000"
           maxPoolSize: 10
-          password: wso2carbon
-          username: wso2carbon
+          password: {{ .Values.wso2.config.datasources.clusterDB.password }}
+          username: {{ .Values.wso2.config.datasources.clusterDB.username }}
           validationTimeout: 30000
 
     - name: WSO2_PERMISSIONS_DB
@@ -369,8 +369,8 @@ wso2.datasources:
         type: RDBMS
         configuration:
           jdbcUrl: 'jdbc:h2:${sys:carbon.home}/wso2/${sys:wso2.runtime}/database/PERMISSION_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000'
-          username: wso2carbon
-          password: wso2carbon
+          username: {{ .Values.wso2.config.datasources.permissionsDB.username }}
+          password: {{ .Values.wso2.config.datasources.permissionsDB.password }}
           driverClassName: org.h2.Driver
           maxPoolSize: 10
           idleTimeout: 60000
@@ -386,8 +386,8 @@ wso2.datasources:
         type: RDBMS
         configuration:
           jdbcUrl: 'jdbc:h2:${sys:carbon.home}/wso2/${sys:wso2.runtime}/database/metrics;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000;'
-          username: wso2carbon
-          password: wso2carbon
+          username: {{ .Values.wso2.config.datasources.metricsDB.username }}
+          password: {{ .Values.wso2.config.datasources.metricsDB.password }}
           driverClassName: org.h2.Driver
           maxPoolSize: 30
           idleTimeout: 60000
@@ -415,8 +415,8 @@ auth.configs:
       users:
        -
          user:
-           username: admin
-           password: YWRtaW4=
+           username: {{ .Values.wso2.config.admin.username }}
+           password: {{ .Values.wso2.config.admin.password }}
            roles: 1
       roles:
        -
@@ -426,11 +426,11 @@ auth.configs:
 
 # Async API service catalogue configuration
 service.catalog.configs:
-  enabled: false
+  enabled: {{ .Values.wso2.config.serviceCatalog.enabled }}
   hostname: localhost
   port: 9443
-  username: admin
-  password: admin
+  username: {{ .Values.wso2.config.serviceCatalog.username }}
+  password: {{ .Values.wso2.config.serviceCatalog.password }}
 
   # Sample of deployment.config for Two node HA
 #deployment.config:

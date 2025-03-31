@@ -128,9 +128,9 @@ wso2:
   config:
     admin:
       # -- Super admin username
-      username: ""
+      username: "admin"
       # -- Super admin password
-      password: ""
+      password: "YWRtaW4="
     secureVault:
       # -- Enable/Disable secure vault
       enabled: false
@@ -159,14 +159,52 @@ wso2:
         fileName: "client-truststore.jks"
         # -- Primary truststore password
         password: ""
+    queryApi:
+      listenerConfigurations:
+        default: 7070
+        msf4jHttps: 7444
+        keyStorePassword: wso2carbon
+        certPass: wso2carbon
+        keyStoreFile: "${carbon.home}/resources/security/wso2carbon.jks"
     transport:
       http:
         default: 9090
         msf4jHttps: 9443
+        keyStoreFile: "${carbon.home}/resources/security/wso2carbon.jks"
+        keyStorePassword: wso2carbon
+        certPass: wso2carbon
     databridge:
+      keyStoreLocation : ${sys:carbon.home}/resources/security/wso2carbon.jks
+      keyStorePassword: wso2carbon
       thrift:
         tcpPort: 7611
         sslPort: 7711
+      binary:
+        tcpPort: 9611
+        sslPort: 9711
+    dataAgent:
+      thrift:
+        trustStorePath: '${sys:carbon.home}/resources/security/client-truststore.jks'
+        trustStorePassword: 'wso2carbon'
+      binary:
+        trustStorePath: '${sys:carbon.home}/resources/security/client-truststore.jks'
+        trustStorePassword: 'wso2carbon'
+    metrics:
+      enabled: false
+    datasources:
+      clusterDB:
+        username:  wso2carbon
+        password: wso2carbon
+      permissionsDB:
+        username: wso2carbon
+        password: wso2carbon
+      metricsDB:
+        username: wso2carbon
+        password: wso2carbon 
+    serviceCatalog:
+      enabled: false
+      username: admin
+      password: admin
 
   deployment:
     securityContext:
@@ -230,7 +268,6 @@ wso2:
 
     # -- (list) Environment variables for the Streaming integrator deployment
     envs:
-    # wso2_oh_sample_baseUrl: "http://localhost:8290/services/odata"
     mountSiddhiApps: false
 
     probes:

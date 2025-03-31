@@ -27,12 +27,12 @@ wso2:
   config:
     admin:
       # -- Super admin username
-      username: ""
+      username: "admin"
       # -- Super admin password
-      password: ""
+      password: "YWRtaW4="
     secureVault:
       # -- Enable/Disable secure vault
-      enabled: true
+      enabled: false
     keyStore:
       primary:
         # -- Primary keystore file name
@@ -58,14 +58,53 @@ wso2:
         fileName: "client-truststore.jks"
         # -- Primary truststore password
         password: "wso2carbon"
+    queryApi:
+      listenerConfigurations:
+        default: 7070
+        msf4jHttps: 7444
+        keyStorePassword: wso2carbon
+        certPass: wso2carbon
+        keyStoreFile: "${carbon.home}/resources/security/wso2carbon.jks"
     transport:
       http:
         default: 9090
         msf4jHttps: 9443
+        keyStoreFile: "${carbon.home}/resources/security/wso2carbon.jks"
+        keyStorePassword: wso2carbon
+        certPass: wso2carbon
     databridge:
+      keyStoreLocation : ${sys:carbon.home}/resources/security/wso2carbon.jks
+      keyStorePassword: wso2carbon
       thrift:
         tcpPort: 7611
         sslPort: 7711
+      binary:
+        tcpPort: 9611
+        sslPort: 9711
+    dataAgent:
+      thrift:
+        trustStorePath: '${sys:carbon.home}/resources/security/client-truststore.jks'
+        trustStorePassword: 'wso2carbon'
+      binary:
+        trustStorePath: '${sys:carbon.home}/resources/security/client-truststore.jks'
+        trustStorePassword: 'wso2carbon'
+    metrics:
+      enabled: false
+    datasources:
+      clusterDB:
+        username:  wso2carbon
+        password: wso2carbon
+      permissionsDB:
+        username: wso2carbon
+        password: wso2carbon
+      metricsDB:
+        username: wso2carbon
+        password: wso2carbon 
+    serviceCatalog:
+      enabled: false
+      username: admin
+      password: admin
+
   deployment:
     securityContext:
       # -- Enable/Disable AppArmor (https://kubernetes.io/docs/tutorials/security/apparmor/)
@@ -110,12 +149,12 @@ wso2:
         # -- The minimum amount of memory that should be allocated for a Pod
         memory: "512Mi"
         # -- The minimum amount of CPU that should be allocated for a Pod
-        cpu: "125m"
+        cpu: "500m"
       limits:
         # -- The maximum amount of memory that should be allocated for a Pod
-        memory: "2Gi"
+        memory: "1Gi"
         # -- The maximum amount of CPU that should be allocated for a Pod
-        cpu: "250m"
+        cpu: "1000m"
 
       # JVM settings
       # These are the resource allocation configurations associated with the JVM

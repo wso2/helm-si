@@ -44,10 +44,24 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | gcp.storage.volumeAttributes.volume | string | `""` | Pre-provisioned Filestore instance share name |
 | gcp.storage.volumeHandle | string | `""` | Volume handle of the GCP Filestore instance. Format `modeInstance/<zone>/<filestore-instance-name>/<filestore-share-name>` |
 | provider | string | `""` | -------------------------------------------------------------------------------------- |
-| wso2.config.admin.password | string | `""` | Super admin password |
-| wso2.config.admin.username | string | `""` | Super admin username |
+| wso2.config.admin.password | string | `"YWRtaW4="` | Super admin password |
+| wso2.config.admin.username | string | `"admin"` | Super admin username |
+| wso2.config.dataAgent.binary.trustStorePassword | string | `"wso2carbon"` |  |
+| wso2.config.dataAgent.binary.trustStorePath | string | `"${sys:carbon.home}/resources/security/client-truststore.jks"` |  |
+| wso2.config.dataAgent.thrift.trustStorePassword | string | `"wso2carbon"` |  |
+| wso2.config.dataAgent.thrift.trustStorePath | string | `"${sys:carbon.home}/resources/security/client-truststore.jks"` |  |
+| wso2.config.databridge.binary.sslPort | int | `9711` |  |
+| wso2.config.databridge.binary.tcpPort | int | `9611` |  |
+| wso2.config.databridge.keyStoreLocation | string | `"${sys:carbon.home}/resources/security/wso2carbon.jks"` |  |
+| wso2.config.databridge.keyStorePassword | string | `"wso2carbon"` |  |
 | wso2.config.databridge.thrift.sslPort | int | `7711` |  |
 | wso2.config.databridge.thrift.tcpPort | int | `7611` |  |
+| wso2.config.datasources.clusterDB.password | string | `"wso2carbon"` |  |
+| wso2.config.datasources.clusterDB.username | string | `"wso2carbon"` |  |
+| wso2.config.datasources.metricsDB.password | string | `"wso2carbon"` |  |
+| wso2.config.datasources.metricsDB.username | string | `"wso2carbon"` |  |
+| wso2.config.datasources.permissionsDB.password | string | `"wso2carbon"` |  |
+| wso2.config.datasources.permissionsDB.username | string | `"wso2carbon"` |  |
 | wso2.config.keyStore.primary.alias | string | `"wso2carbon"` | Primary keystore alias |
 | wso2.config.keyStore.primary.fileName | string | `"wso2carbon.jks"` | Primary keystore file name |
 | wso2.config.keyStore.primary.keyPassword | string | `""` | Primary keystore key password |
@@ -56,8 +70,20 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | wso2.config.keyStore.secureVault.fileName | string | `"securevault.jks"` | Secure vault file name |
 | wso2.config.keyStore.secureVault.keyPassword | string | `""` | Secure vault key password |
 | wso2.config.keyStore.secureVault.password | string | `""` | Secure vault password |
+| wso2.config.metrics.enabled | bool | `false` |  |
+| wso2.config.queryApi.listenerConfigurations.certPass | string | `"wso2carbon"` |  |
+| wso2.config.queryApi.listenerConfigurations.default | int | `7070` |  |
+| wso2.config.queryApi.listenerConfigurations.keyStoreFile | string | `"${carbon.home}/resources/security/wso2carbon.jks"` |  |
+| wso2.config.queryApi.listenerConfigurations.keyStorePassword | string | `"wso2carbon"` |  |
+| wso2.config.queryApi.listenerConfigurations.msf4jHttps | int | `7444` |  |
 | wso2.config.secureVault.enabled | bool | `false` | Enable/Disable secure vault |
+| wso2.config.serviceCatalog.enabled | bool | `false` |  |
+| wso2.config.serviceCatalog.password | string | `"admin"` |  |
+| wso2.config.serviceCatalog.username | string | `"admin"` |  |
+| wso2.config.transport.http.certPass | string | `"wso2carbon"` |  |
 | wso2.config.transport.http.default | int | `9090` |  |
+| wso2.config.transport.http.keyStoreFile | string | `"${carbon.home}/resources/security/wso2carbon.jks"` |  |
+| wso2.config.transport.http.keyStorePassword | string | `"wso2carbon"` |  |
 | wso2.config.transport.http.msf4jHttps | int | `9443` |  |
 | wso2.config.trustStore.primary.fileName | string | `"client-truststore.jks"` | Primary truststore file name |
 | wso2.config.trustStore.primary.password | string | `""` | Primary truststore password |
