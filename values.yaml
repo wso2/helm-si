@@ -1,0 +1,285 @@
+# ----------------------------------------------------------------------------------------
+#
+# Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com)..
+#
+# This software is the property of WSO2 LLC. and its suppliers, if any.
+# Dissemination of any information or reproduction of any material contained
+# herein in any form is strictly forbidden, unless permitted by WSO2 expressly.
+# You may not alter or remove any copyright or other notice from copies of this content.
+#
+# ----------------------------------------------------------------------------------------
+provider: ""
+# AWS service configurations
+aws:
+  # -- AWS IAM service account name
+  serviceAccountName: ""
+  # -- AWS region
+  region: ""
+  # AWS Secret Manager configurations
+  secretManager:
+    # -- AWS Secret Manager secret provider class name
+    secretProviderClass: ""
+    secretIdentifiers:
+      internalKeystorePassword:
+        # -- Secret name for internal keystore password
+        secretName: ""
+        # -- Secret key for internal keystore password
+        secretKey: ""
+  storage:
+    # -- Storage provisioner
+    provisioner: "efs.csi.aws.com"
+    # -- Persistent volume storage class name
+    storageClass: ""
+    # -- Persistent volume storage capacity
+    capacity: ""
+    # -- EFS file system ID
+    fileSystemId: ""
+    # -- EFS file system access point ID for mounting the CApps
+    cAppAccessPoint: ""
+    # -- Directory permissions for access point root directory creation
+    directoryPerms: "0777"
+# Azure service configurations
+azure:
+  keyVault:
+    # -- Name of the target Azure Key Vault instance
+    name: ""
+    secretProviderClass: ""
+    secretIdentifiers:
+      internalKeystorePassword: ""
+    activeDirectory:
+      # -- Service Principal created for transacting with the target Azure Key Vault
+      # For advanced details refer to official documentation (https://github.com/Azure/secrets-store-csi-driver-provider-azure/blob/master/docs/service-principal-mode.md)
+      servicePrincipal:
+        # -- Azure AD application name for fetching secrets via CSI secret store driver
+        appId: ""
+        # -- Client secret of Azure AD application client
+        clientSecret: ""
+      # -- Azure Active Directory tenant ID of the target Key Vault
+      tenantId: ""
+    resourceManager:
+      # -- Subscription ID of the target Azure Key Vault
+      subscriptionId: ""
+      # -- Name of the Azure Resource Group to which the target Azure Key Vault belongs
+      resourceGroup: ""
+  serviceAccount: ""
+  storage:
+    # Needed for persisting indexing related data
+    # -- Persistent volume capacity
+    capacity: ""
+    # -- Persistent volume storage class
+    storageClass: ""
+    # -- Azure file secret name
+    secretName: ""
+    # -- Azure fileshare name
+    fileShare: ""
+gcp:
+  # GCP Secret Manager configurations
+  secretManager:
+    # -- GCP Secret Manager secret provider class name
+    secretProviderClass: ""
+    # -- K8s secret name which contains the JSON keyfile for the service account used to access the GCP Secret Manager
+    serviceAccountKeySecret: ""
+    secretIdentifiers:
+      # -- Secret name for internal keystore password. Expected format is `projects/<PROJECT_ID>/secrets/<SECRET_NAME>/versions/<VERSION>`
+      internalKeystorePassword: ""
+  # Filestore configurations
+  storage:
+    # -- Persistent volume storage class name
+    storageClass: ""
+    # -- Persistent volume storage capacity
+    capacity: ""
+    # -- Volume handle of the GCP Filestore instance. Format `modeInstance/<zone>/<filestore-instance-name>/<filestore-share-name>`
+    volumeHandle: ""
+    volumeAttributes:
+      # -- Pre-provisioned Filestore instance IP
+      ip: ""
+      # -- Pre-provisioned Filestore instance share name
+      volume: ""
+      # -- Tier of the FileStore
+    tier: ""
+    # -- Network of the FileStore
+    network: ""
+wso2:
+  subscription:
+    # -- WSO2 subscription username
+    username: ""
+    # -- WSO2 subscription password
+    password: ""
+  ingress:
+    # -- Enable Ingress for SI
+    enabled: true
+    # -- Ingress class name
+    ingressClassName: "nginx"
+    # -- (list) Ingress annotations
+    annotations:
+    # -- K8s TLS secret for configured hostname
+    tlsSecret: ""
+    # -- Controls how the Ingress communicates with backend services
+    backendProtocol: "AUTO_HTTP"
+    # -- Controls how the  redirection of HTTPS if TLS is enabled for that ingress.
+    sslRedirect: "false"
+    ratelimit:
+      # -- Ingress rate limit
+      enabled: false
+      # -- Ingress ratelimit zone name
+      zoneName: ""
+      # -- Ingress ratelimit burst limit
+      burstLimit: ""
+  config:
+    admin:
+      # -- Super admin username
+      username: "admin"
+      # -- Super admin password
+      password: "YWRtaW4="
+    secureVault:
+      # -- Enable/Disable secure vault
+      enabled: false
+    keyStore:
+      primary:
+        # -- Primary keystore file name
+        fileName: "wso2carbon.jks"
+        # -- Primary keystore alias
+        alias: "wso2carbon"
+        # -- Primary keystore password
+        password: ""
+        # -- Primary keystore key password
+        keyPassword: ""
+      secureVault:
+        # -- Secure vault file name
+        fileName: "securevault.jks"
+        # -- Secure vault alias
+        alias: "wso2carbon"
+        # -- Secure vault password
+        password: ""
+        # -- Secure vault key password
+        keyPassword: ""
+    trustStore:
+      primary:
+        # -- Primary truststore file name
+        fileName: "client-truststore.jks"
+        # -- Primary truststore password
+        password: ""
+    queryApi:
+      listenerConfigurations:
+        default: 7070
+        msf4jHttps: 7444
+        keyStorePassword: wso2carbon
+        certPass: wso2carbon
+        keyStoreFile: "${carbon.home}/resources/security/wso2carbon.jks"
+    transport:
+      http:
+        default: 9090
+        msf4jHttps: 9443
+        keyStoreFile: "${carbon.home}/resources/security/wso2carbon.jks"
+        keyStorePassword: wso2carbon
+        certPass: wso2carbon
+    databridge:
+      keyStoreLocation : ${sys:carbon.home}/resources/security/wso2carbon.jks
+      keyStorePassword: wso2carbon
+      thrift:
+        tcpPort: 7611
+        sslPort: 7711
+      binary:
+        tcpPort: 9611
+        sslPort: 9711
+    dataAgent:
+      thrift:
+        trustStorePath: '${sys:carbon.home}/resources/security/client-truststore.jks'
+        trustStorePassword: 'wso2carbon'
+      binary:
+        trustStorePath: '${sys:carbon.home}/resources/security/client-truststore.jks'
+        trustStorePassword: 'wso2carbon'
+    metrics:
+      enabled: false
+    datasources:
+      clusterDB:
+        username:  wso2carbon
+        password: wso2carbon
+      permissionsDB:
+        username: wso2carbon
+        password: wso2carbon
+      metricsDB:
+        username: wso2carbon
+        password: wso2carbon 
+    serviceCatalog:
+      enabled: false
+      username: admin
+      password: admin
+
+  deployment:
+    securityContext:
+      # -- Enable/Disable AppArmor (https://kubernetes.io/docs/tutorials/security/apparmor/)
+      apparmor: true
+      # -- Enable/Disable seccomp profile (https://kubernetes.io/docs/tutorials/security/seccomp/)
+      seccompProfile: true
+      # -- The UID to run the entrypoint of the container process
+      runAsUser: ""
+    # -- Hostname of the Streaming Integrator deployment
+    hostname: "si.wso2.com"
+    # -- Build version of the Streaming Integrator
+    BuildVersion: "4.3.0"
+    # -- K8s secret name which contains JKS files
+    JKSSecretName: ""
+    # -- imagePullSecrets for private docker registry
+    imagePullSecrets: ""
+    image:
+      # -- Container registry (When running on a local Kubernetes cluster using local image, make this empty)
+      containerRegistry: "docker.io"
+      # -- Container image repository name
+      repository: "wso2/wso2si"
+      # -- Container image digest
+      digest: ""
+      # -- Container image tag
+      tag: "4.3.0-ubuntu"
+      # -- Container image pull policy. Refer (https://kubernetes.io/docs/concepts/containers/images/#updating-images)
+      pullPolicy: IfNotPresent
+
+    # -- Number of deployment replicas
+    replicas: 1
+
+    strategy:
+      rollingUpdate:
+        # -- The maximum number of pods that can be scheduled above the desired number of pods.
+        maxSurge: 1
+        # -- The maximum number of pods that can be unavailable during the update.
+        maxUnavailable: 0
+
+    # These are the minimum resource recommendations for running WSO2 Streaming Integrator
+    resources:
+      requests:
+        # -- The minimum amount of memory that should be allocated for a Pod
+        memory: "512Mi"
+        # -- The minimum amount of CPU that should be allocated for a Pod
+        cpu: "500m"
+      limits:
+        # -- The maximum amount of memory that should be allocated for a Pod
+        memory: "1Gi"
+        # -- The maximum amount of CPU that should be allocated for a Pod
+        cpu: "1000m"
+
+      # JVM settings
+      # These are the resource allocation configurations associated with the JVM
+      jvm:
+        memory:
+          # -- The minimum amount of memory that should be allocated for the JVM
+          xms: "512m"
+          # -- The maximum amount of memory that should be allocated for the JVM
+          xmx: "1024m"
+
+    # -- (list) Environment variables for the Streaming integrator deployment
+    envs:
+    mountSiddhiApps: false
+
+    probes:
+      # Indicates whether the container is running
+      livenessProbe:
+        # Number of seconds after the container has started before liveness probes are initiated
+        initialDelaySeconds: 60
+        # How often (in seconds) to perform the probe
+        periodSeconds: 10
+      # Indicates whether the container is ready to service requests
+      readinessProbe:
+        # Number of seconds after the container has started before readiness probes are initiated
+        initialDelaySeconds: 60
+        # How often (in seconds) to perform the probe
+        periodSeconds: 10

@@ -1,0 +1,231 @@
+# ------------------------------------------------------------------------------------
+# Copyright (c) 2025, WSO2 LLC. (http://www.wso2.org).
+#
+# WSO2 LLC. licenses this file to you under the Apache License,
+# Version 2.0 (the "License"); you may not use this file except
+# in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#------------------------------------------------------------------------------------
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "resource.prefix" . }}-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "streaming-integrator.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.wso2.deployment.replicas }}
+  serviceName: {{ template "resource.prefix" . }}-{{ .Release.Name }}-headless
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  selector:
+    matchLabels:
+      statefulset: {{ template "resource.prefix" . }}-{{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        checksum.si.yaml: {{ include (print $.Template.BasePath "/si-conf.yaml") . | sha256sum }}
+        checksum.si.entrypoint.sh: {{ include (print $.Template.BasePath "/si-conf-entrypoint.yaml") . | sha256sum }}
+        {{- if .Values.wso2.deployment.securityContext.apparmor }}
+        container.apparmor.security.beta.kubernetes.io/wso2si: "runtime/default"
+        {{- end }}
+      labels:
+        statefulset: {{ template "resource.prefix" . }}-{{ .Release.Name }}
+    spec:
+      {{- if and (eq "aws" .Values.provider) (.Values.aws.serviceAccountName) }}
+      serviceAccountName: {{ .Values.aws.serviceAccountName }}
+      {{- end }}
+      securityContext:
+        runAsUser: {{ .Values.wso2.deployment.securityContext.runAsUser }}
+        fsGroup: {{ .Values.wso2.deployment.securityContext.runAsUser }}
+        {{- if .Values.wso2.deployment.securityContext.seccompProfile }}
+        seccompProfile:
+          type: RuntimeDefault
+        {{- end }}
+        
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: statefulset
+                      operator: In
+                      values:
+                        - {{ template "resource.prefix" . }}-{{ .Release.Name }}
+                topologyKey: topology.kubernetes.io/zone
+      containers:
+        - name: wso2si
+          image: "{{- if .Values.wso2.deployment.image.containerRegistry -}}{{ .Values.wso2.deployment.image.containerRegistry }}/{{ end }}{{ .Values.wso2.deployment.image.repository }}{{- if .Values.wso2.deployment.image.digest -}}@{{ .Values.wso2.deployment.image.digest }}{{- else -}}:{{ .Values.wso2.deployment.image.tag }}{{- end }}"
+          imagePullPolicy: {{ .Values.wso2.deployment.image.pullPolicy }}
+          args:
+            {{- range .Values.wso2.deployment.cmdArgs }}
+            - "{{ . }}"
+            {{- end }}
+          ports:
+            - containerPort: {{ .Values.wso2.config.transport.http.default }}
+              protocol: TCP
+            - containerPort: {{ .Values.wso2.config.transport.http.msf4jHttps }}
+              protocol: TCP
+            - containerPort: {{ .Values.wso2.config.databridge.thrift.tcpPort }}
+              protocol: TCP
+            - containerPort: {{ .Values.wso2.config.databridge.thrift.sslPort }}
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - nc -z localhost {{ .Values.wso2.config.transport.http.msf4jHttps }}
+            initialDelaySeconds: {{ .Values.wso2.deployment.probes.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.wso2.deployment.probes.livenessProbe.periodSeconds }}
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - nc -z localhost {{ .Values.wso2.config.transport.http.msf4jHttps }}
+            initialDelaySeconds: {{ .Values.wso2.deployment.probes.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.wso2.deployment.probes.readinessProbe.periodSeconds }}
+          resources:
+            requests:
+              memory: {{ .Values.wso2.deployment.resources.requests.memory }}
+              cpu: {{ .Values.wso2.deployment.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.wso2.deployment.resources.limits.memory }}
+              cpu: {{ .Values.wso2.deployment.resources.limits.cpu }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - all
+          env:
+            - name: JAVA_MEM_OPTS
+              value: "-Xms{{ .Values.wso2.deployment.resources.jvm.memory.xms }} -Xmx{{ .Values.wso2.deployment.resources.jvm.memory.xmx }}"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            {{- if .Values.wso2.deployment.envs }}
+            {{- range $key, $val := .Values.wso2.deployment.envs }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
+            {{- end }}
+          volumeMounts:
+            - name: wso2si-yaml
+              mountPath: /home/wso2carbon/wso2-config/conf/deployment.yaml
+              subPath: deployment.yaml
+            - name: wso2si-log4j2-yaml
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/conf/server/log4j2.xml
+              subPath: log4j2.xml
+            - name: wso2si-secret-properties
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/conf/server/secrets.properties
+              subPath: secrets.properties
+            - name: wso2si-master-keys
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/conf/server/master-keys.yaml
+              subPath: master-keys.yaml
+            {{- if .Values.wso2.deployment.mountSiddhiApps }}
+            - name: siddhi-apps
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/wso2/server/deployment/siddhi-files
+            {{- end }}
+            {{- if .Values.wso2.deployment.JKSSecretName }}
+              # Primary keystore
+            - name: keystores
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/resources/security/{{ .Values.wso2.config.keyStore.primary.fileName }}
+              subPath: {{ .Values.wso2.config.keyStore.primary.fileName }}
+              # Secure vault
+            - name: keystores
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/resources/security/{{ .Values.wso2.config.keyStore.secureVault.fileName }}
+              subPath: {{ .Values.wso2.config.keyStore.secureVault.fileName }}
+              # Primary Truststore
+            - name: keystores
+              mountPath: /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/resources/security/{{ .Values.wso2.config.trustStore.primary.fileName }}
+              subPath: {{ .Values.wso2.config.trustStore.primary.fileName }}
+            {{- end }}
+            {{- if .Values.wso2.config.secureVault.enabled }}
+            - name: wso2si-secrets-volume
+              mountPath: /mnt/secrets-store
+              readOnly: true
+            {{- end }}
+            - name: wso2si-entrypoint
+              mountPath: /home/wso2carbon/docker-entrypoint.sh
+              subPath: docker-entrypoint.sh
+      volumes:
+        - name: wso2si-yaml
+          configMap:
+            name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-yaml
+        - name: wso2si-log4j2-yaml
+          configMap:
+            name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-log4j2-yaml
+        - name: wso2si-secret-properties
+          configMap:
+            name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-secret-properties
+        - name: wso2si-master-keys
+          configMap:
+            name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-master-keys
+        {{- if .Values.wso2.deployment.JKSSecretName }}
+        - name: keystores
+          secret:
+            secretName: {{ .Values.wso2.deployment.JKSSecretName }}
+        {{- end }}
+        {{- if .Values.wso2.deployment.mountSiddhiApps }}
+        - name: siddhi-apps
+          persistentVolumeClaim:
+            claimName: {{ template "resource.prefix" . }}-{{ .Release.Name }}-siddhiapps
+        {{- end }}
+        - name: wso2si-entrypoint
+          configMap:
+            name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-entrypoint
+            defaultMode: 0777
+        {{- if .Values.wso2.config.secureVault.enabled }}
+        - name: wso2si-secrets-volume
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            {{- if eq "azure" .Values.provider }}
+            volumeAttributes:
+              secretProviderClass: {{ .Values.azure.keyVault.secretProviderClass }}
+            nodePublishSecretRef:
+              name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-si-secret-store-csi
+            {{- else if eq "gcp" .Values.provider }}
+            volumeAttributes:
+              secretProviderClass: {{ .Values.gcp.secretManager.secretProviderClass }}
+            nodePublishSecretRef:
+              name: {{ .Values.gcp.secretManager.serviceAccountKeySecret }}
+            {{- else if eq "aws" .Values.provider }}
+            volumeAttributes:
+              secretProviderClass: {{ .Values.aws.secretManager.secretProviderClass }}
+            {{- end }}
+        {{- end }}
+      {{- if .Values.wso2.deployment.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.wso2.deployment.imagePullSecrets }}
+      {{- else if and .Values.wso2.subscription.username .Values.wso2.subscription.password }}
+      imagePullSecrets:
+        - name: wso2streaming-integrator-deployment-creds
+      {{- end }}
+  
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
