@@ -61,9 +61,9 @@ data:
     {{- end }}
 
     IDS="{{ range .Values.wso2.deployment.ids }}{{ . }} {{ end }}"
-    SELECTED_ID=$(echo $IDS | awk -v idx="$((ORDINAL_NUMBER + 1))" '{print $idx}')
+    SELECTED_ID=$(echo $IDS | awk -v idx=$((ORDINAL_NUMBER + 1)) '{print $idx}')
 
-    sed "s/id: \"\$(HOSTNAME)\"/id: \"$SELECTED_ID\"/" /home/wso2carbon/wso2-config/conf/deployment.yaml \
+    sed "s/id: \"\$(HOSTNAME)\"/id: $SELECTED_ID/" /home/wso2carbon/wso2-config/conf/deployment.yaml \
     > /home/wso2carbon/wso2si-{{ .Values.wso2.deployment.BuildVersion }}/conf/server/deployment.yaml
 
     # start WSO2 server
