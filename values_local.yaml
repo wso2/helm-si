@@ -135,6 +135,10 @@ wso2:
 
     # -- Number of deployment replicas
     replicas: 1
+    # -- The ids of the pods that need to be set. The number of elements in the ids should be the same
+    # as the number of replicas
+    ids:
+      - id-0
 
     strategy:
       rollingUpdate:
@@ -147,9 +151,9 @@ wso2:
     resources:
       requests:
         # -- The minimum amount of memory that should be allocated for a Pod
-        memory: "512Mi"
+        memory: "256Mi"
         # -- The minimum amount of CPU that should be allocated for a Pod
-        cpu: "500m"
+        cpu: "250m"
       limits:
         # -- The maximum amount of memory that should be allocated for a Pod
         memory: "1Gi"

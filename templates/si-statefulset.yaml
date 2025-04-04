@@ -121,6 +121,10 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.name
+            - name: ORDINAL_NUMBER
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
             {{- if .Values.wso2.deployment.envs }}
             {{- range $key, $val := .Values.wso2.deployment.envs }}
             - name: {{ $key }}

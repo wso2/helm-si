@@ -236,6 +236,10 @@ wso2:
 
     # -- Number of deployment replicas
     replicas: 1
+    # -- The ids of the pods that need to be set. The number of elements in the ids should be the same
+    # as the number of replicas
+    ids:
+      - id-0
 
     strategy:
       rollingUpdate:
