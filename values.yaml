@@ -106,7 +106,7 @@ wso2:
     # -- WSO2 subscription password
     password: ""
   ingress:
-    # -- Enable Ingress for SI
+    # -- Enable Ingress for SI. Mutually exclusive with wso2.gatewayApi.enabled.
     enabled: true
     # -- Ingress class name
     ingressClassName: "nginx"
@@ -125,6 +125,44 @@ wso2:
       zoneName: ""
       # -- Ingress ratelimit burst limit
       burstLimit: ""
+  # Gateway API configuration. Use this instead of wso2.ingress when routing through
+  # Envoy Gateway or any other Gateway-API-conformant controller. Set wso2.ingress.enabled=false
+  # when wso2.gatewayApi.enabled=true.
+  gatewayApi:
+    # -- Enable Gateway API resources (HTTPRoute, optional Gateway, optional policies) for SI.
+    enabled: false
+    # -- GatewayClass name. Examples: "eg" (Envoy Gateway), "istio", "contour".
+    gatewayClassName: "eg"
+    gateway:
+      # -- If true, the chart creates a Gateway resource. If false, an existing Gateway is referenced.
+      create: true
+      # -- Name of the Gateway. Used for both create=true and create=false modes.
+      name: "si-gateway"
+      # -- Namespace of the Gateway when create=false. Ignored when create=true (chart uses release namespace).
+      namespace: ""
+      # -- Listener name on the Gateway that the HTTPRoute attaches to.
+      listenerName: "https"
+      # -- Listener port. Typically 443 for HTTPS termination.
+      port: 443
+      # -- K8s TLS secret used to terminate TLS at the Gateway listener (only when create=true).
+      tlsSecret: ""
+    backendTLS:
+      # -- Issue a BackendTLSPolicy so the Gateway speaks HTTPS to the SI backend (msf4jHttps).
+      # Required when routing to the secure transport port. Gateway API v1.1+.
+      enabled: true
+      # -- Hostname used for backend SNI/cert verification. Defaults to the service name when empty.
+      hostname: ""
+      # -- (list) ConfigMap refs containing CA certs to validate the backend cert.
+      # Format: [{name: "<cm-name>"}]. Leave empty to use the well-known CA bundle.
+      caCertRefs:
+    rateLimit:
+      # -- Apply an Envoy Gateway BackendTrafficPolicy for local rate limiting.
+      # Envoy-Gateway-specific extension; not portable across Gateway API implementations.
+      enabled: false
+      # -- Number of requests permitted per unit.
+      requests: 100
+      # -- Time window. One of: Second, Minute, Hour, Day.
+      unit: "Second"
   config:
     admin:
       # -- Super admin username
