@@ -149,11 +149,21 @@ wso2:
     backendTLS:
       # -- Issue a BackendTLSPolicy so the Gateway speaks HTTPS to the SI backend (msf4jHttps).
       # Required when routing to the secure transport port. Gateway API v1.1+.
+      #
+      # NOTE: SI's default `wso2carbon.jks` keystore ships a self-signed cert with `CN=localhost`
+      # and no SubjectAltName. Modern Gateway implementations (Envoy Gateway, Istio) reject this
+      # under strict TLS verification regardless of the CA. For the policy to result in successful
+      # backend connections, replace `wso2carbon.jks` with a properly-issued cert whose SAN includes
+      # the service FQDN (e.g. `cloud-<release>-headless.<namespace>.svc`) and provide its CA below.
       enabled: true
-      # -- Hostname used for backend SNI/cert verification. Defaults to the service name when empty.
+      # -- Hostname used for backend SNI/cert verification. Defaults to the service FQDN when empty.
       hostname: ""
       # -- (list) ConfigMap refs containing CA certs to validate the backend cert.
-      # Format: [{name: "<cm-name>"}]. Leave empty to use the well-known CA bundle.
+      # Each entry must specify group, kind, and name. Format:
+      #   - group: ""
+      #     kind: ConfigMap
+      #     name: <configmap-name>
+      # Leave empty to use the well-known CA bundle (System trust store).
       caCertRefs:
     rateLimit:
       # -- Apply an Envoy Gateway BackendTrafficPolicy for local rate limiting.
