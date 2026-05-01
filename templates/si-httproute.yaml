@@ -46,5 +46,9 @@ spec:
         - group: ""
           kind: Service
           name: {{ template "resource.prefix" . }}-{{ .Release.Name }}-headless
+          {{- if .Values.wso2.gatewayApi.backendTLS.enabled }}
           port: {{ .Values.wso2.config.transport.http.msf4jHttps }}
+          {{- else }}
+          port: {{ .Values.wso2.config.transport.http.default }}
+          {{- end }}
 {{- end }}
