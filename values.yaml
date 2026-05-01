@@ -125,6 +125,45 @@ wso2:
       zoneName: ""
       # -- Ingress ratelimit burst limit
       burstLimit: ""
+  # Gateway API configuration — enable as an alternative to Ingress.
+  # Tested with Envoy Gateway. Disable ingress when enabling Gateway API.
+  # NOTE: SI ships with a self-signed cert (CN=localhost, no SANs). Enable backendTLS
+  # only after replacing the default cert with one that has proper SANs, otherwise
+  # the gateway will fail to establish TLS to the backend.
+  gatewayApi:
+    # -- Enable Gateway API routing (set wso2.ingress.enabled=false when enabling this)
+    enabled: false
+    # -- GatewayClass name (e.g. "eg" for Envoy Gateway)
+    gatewayClassName: "eg"
+    gateway:
+      # -- Create a Gateway resource managed by this chart. Set false to reference an existing Gateway.
+      create: true
+      # -- Name of the Gateway resource
+      name: "si-gateway"
+      # -- Namespace of an externally-managed Gateway (only used when create=false)
+      namespace: ""
+      # -- Listener name on the Gateway
+      listenerName: "https"
+      # -- HTTPS listener port
+      port: 443
+      # -- K8s TLS secret name for HTTPS termination. Required when gateway.create=true.
+      tlsSecret: ""
+    backendTLS:
+      # -- Enable BackendTLSPolicy for TLS validation between gateway and SI backend.
+      # Requires a valid certificate with proper SANs. SI's default self-signed cert
+      # (CN=localhost) will cause validation failures — replace it before enabling.
+      enabled: false
+      # -- Override the validation hostname. Defaults to the headless service FQDN.
+      hostname: ""
+      # -- (list) CA certificate refs for backend TLS validation. If empty, system CAs are used.
+      caCertRefs:
+    rateLimit:
+      # -- Enable rate limiting via Envoy Gateway BackendTrafficPolicy (Envoy Gateway-specific, not portable)
+      enabled: false
+      # -- Maximum number of requests allowed per unit
+      requests: 100
+      # -- Time unit for rate limiting (Second, Minute, Hour)
+      unit: "Second"
   config:
     admin:
       # -- Super admin username

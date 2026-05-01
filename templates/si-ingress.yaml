@@ -1,4 +1,8 @@
-{{- if .Values.wso2.ingress.enabled }}
+{{- $gatewayApiEnabled := false -}}
+{{- if hasKey .Values.wso2 "gatewayApi" -}}
+  {{- $gatewayApiEnabled = .Values.wso2.gatewayApi.enabled | default false -}}
+{{- end -}}
+{{- if and .Values.wso2.ingress.enabled (not $gatewayApiEnabled) }}
 # ------------------------------------------------------------------------------------
 # Copyright (c) 2025, WSO2 LLC. (http://www.wso2.org).
 #
