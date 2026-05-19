@@ -1,6 +1,6 @@
 # si
 
-![Version: 4.3.0-0](https://img.shields.io/badge/Version-4.3.0--0-informational?style=flat-square) ![AppVersion: 4.3.0](https://img.shields.io/badge/AppVersion-4.3.0-informational?style=flat-square)
+![Version: 4.4.0-0](https://img.shields.io/badge/Version-4.4.0--0-informational?style=flat-square) ![AppVersion: 4.4.0](https://img.shields.io/badge/AppVersion-4.4.0-informational?style=flat-square)
 
 A Helm chart for the deployment of WSO2 Streaming Integrator
 
@@ -87,7 +87,7 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | wso2.config.transport.http.msf4jHttps | int | `9443` |  |
 | wso2.config.trustStore.primary.fileName | string | `"client-truststore.jks"` | Primary truststore file name |
 | wso2.config.trustStore.primary.password | string | `""` | Primary truststore password |
-| wso2.deployment.BuildVersion | string | `"4.3.0"` | Build version of the Streaming Integrator |
+| wso2.deployment.BuildVersion | string | `"4.4.0"` | Build version of the Streaming Integrator |
 | wso2.deployment.JKSSecretName | string | `""` | K8s secret name which contains JKS files |
 | wso2.deployment.envs | list | `nil` | Environment variables for the Streaming integrator deployment |
 | wso2.deployment.hostname | string | `"si.wso2.com"` | Hostname of the Streaming Integrator deployment |
@@ -95,7 +95,7 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | wso2.deployment.image.digest | string | `""` | Container image digest |
 | wso2.deployment.image.pullPolicy | string | `"IfNotPresent"` | Container image pull policy. Refer (https://kubernetes.io/docs/concepts/containers/images/#updating-images) |
 | wso2.deployment.image.repository | string | `"wso2/wso2si"` | Container image repository name |
-| wso2.deployment.image.tag | string | `"4.3.0-ubuntu"` | Container image tag |
+| wso2.deployment.image.tag | string | `"4.4.0-ubuntu"` | Container image tag |
 | wso2.deployment.imagePullSecrets | string | `""` | imagePullSecrets for private docker registry |
 | wso2.deployment.mountSiddhiApps | bool | `false` |  |
 | wso2.deployment.probes.livenessProbe.initialDelaySeconds | int | `60` |  |
@@ -114,6 +114,20 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | wso2.deployment.securityContext.seccompProfile | bool | `true` | Enable/Disable seccomp profile (https://kubernetes.io/docs/tutorials/security/seccomp/) |
 | wso2.deployment.strategy.rollingUpdate.maxSurge | int | `1` | The maximum number of pods that can be scheduled above the desired number of pods. |
 | wso2.deployment.strategy.rollingUpdate.maxUnavailable | int | `0` | The maximum number of pods that can be unavailable during the update. |
+| wso2.gatewayApi.backendTLS.caCertRefs | list | `nil` | CA certificate refs for backend TLS validation. If empty, system CAs are used. |
+| wso2.gatewayApi.backendTLS.enabled | bool | `false` | Enable BackendTLSPolicy for TLS validation between gateway and SI backend. Requires a valid certificate with proper SANs. SI's default self-signed cert (CN=localhost) will cause validation failures — replace it before enabling. |
+| wso2.gatewayApi.backendTLS.hostname | string | `""` | Override the validation hostname. Defaults to the headless service FQDN. |
+| wso2.gatewayApi.enabled | bool | `false` | Enable Gateway API routing (set wso2.ingress.enabled=false when enabling this) |
+| wso2.gatewayApi.gateway.create | bool | `true` | Create a Gateway resource managed by this chart. Set false to reference an existing Gateway. |
+| wso2.gatewayApi.gateway.listenerName | string | `"https"` | Listener name on the Gateway |
+| wso2.gatewayApi.gateway.name | string | `"si-gateway"` | Name of the Gateway resource |
+| wso2.gatewayApi.gateway.namespace | string | `""` | Namespace of an externally-managed Gateway (only used when create=false) |
+| wso2.gatewayApi.gateway.port | int | `443` | HTTPS listener port |
+| wso2.gatewayApi.gateway.tlsSecret | string | `""` | K8s TLS secret name for HTTPS termination. Required when gateway.create=true. |
+| wso2.gatewayApi.gatewayClassName | string | `"eg"` | GatewayClass name (e.g. "eg" for Envoy Gateway) |
+| wso2.gatewayApi.rateLimit.enabled | bool | `false` | Enable rate limiting via Envoy Gateway BackendTrafficPolicy (Envoy Gateway-specific, not portable) |
+| wso2.gatewayApi.rateLimit.requests | int | `100` | Maximum number of requests allowed per unit |
+| wso2.gatewayApi.rateLimit.unit | string | `"Second"` | Time unit for rate limiting (Second, Minute, Hour) |
 | wso2.ingress.annotations | list | `nil` | Ingress annotations |
 | wso2.ingress.backendProtocol | string | `"AUTO_HTTP"` | Controls how the Ingress communicates with backend services |
 | wso2.ingress.enabled | bool | `true` | Enable Ingress for SI |

@@ -116,7 +116,7 @@ wso2:
     # -- Hostname of the Streaming Integrator deployment
     hostname: "si.wso2.com"
     # -- Build version of the Streaming Integrator
-    BuildVersion: "4.3.0"
+    BuildVersion: "4.4.0"
     # -- K8s secret name which contains JKS files
     JKSSecretName: ""
     # -- imagePullSecrets for private docker registry
@@ -129,7 +129,7 @@ wso2:
       # -- Container image digest
       digest: ""
       # -- Container image tag
-      tag: "4.3.0-ubuntu"
+      tag: "4.4.0-ubuntu"
       # -- Container image pull policy. Refer (https://kubernetes.io/docs/concepts/containers/images/#updating-images)
       pullPolicy: IfNotPresent
 
