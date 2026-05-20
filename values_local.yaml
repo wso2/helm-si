@@ -113,9 +113,9 @@ wso2:
       seccompProfile: false
       # -- The UID to run the entrypoint of the container process
       runAsUser: "802"
-    # -- Hostname of the Streaming Integrator deployment
+    # -- Hostname of the WSO2 Integrator: SI deployment
     hostname: "si.wso2.com"
-    # -- Build version of the Streaming Integrator
+    # -- Build version of WSO2 Integrator: SI
     BuildVersion: "4.4.0"
     # -- K8s secret name which contains JKS files
     JKSSecretName: ""
@@ -143,7 +143,7 @@ wso2:
         # -- The maximum number of pods that can be unavailable during the update.
         maxUnavailable: 0
 
-    # These are the minimum resource recommendations for running WSO2 Streaming Integrator
+    # These are the minimum resource recommendations for running WSO2 Integrator: SI
     resources:
       requests:
         # -- The minimum amount of memory that should be allocated for a Pod
@@ -165,7 +165,7 @@ wso2:
           # -- The maximum amount of memory that should be allocated for the JVM
           xmx: "1024m"
 
-    # -- (list) Environment variables for the Streaming integrator deployment
+    # -- (list) Environment variables for the WSO2 Integrator: SI deployment
     envs:
     mountSiddhiApps: false
 

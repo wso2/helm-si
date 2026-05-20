@@ -2,7 +2,7 @@
 
 ![Version: 4.4.0-0](https://img.shields.io/badge/Version-4.4.0--0-informational?style=flat-square) ![AppVersion: 4.4.0](https://img.shields.io/badge/AppVersion-4.4.0-informational?style=flat-square)
 
-A Helm chart for the deployment of WSO2 Streaming Integrator
+A Helm chart for the deployment of WSO2 Integrator: SI
 
 ## Values
 
@@ -87,10 +87,10 @@ A Helm chart for the deployment of WSO2 Streaming Integrator
 | wso2.config.transport.http.msf4jHttps | int | `9443` |  |
 | wso2.config.trustStore.primary.fileName | string | `"client-truststore.jks"` | Primary truststore file name |
 | wso2.config.trustStore.primary.password | string | `""` | Primary truststore password |
-| wso2.deployment.BuildVersion | string | `"4.4.0"` | Build version of the Streaming Integrator |
+| wso2.deployment.BuildVersion | string | `"4.4.0"` | Build version of WSO2 Integrator: SI |
 | wso2.deployment.JKSSecretName | string | `""` | K8s secret name which contains JKS files |
-| wso2.deployment.envs | list | `nil` | Environment variables for the Streaming integrator deployment |
-| wso2.deployment.hostname | string | `"si.wso2.com"` | Hostname of the Streaming Integrator deployment |
+| wso2.deployment.envs | list | `nil` | Environment variables for the WSO2 Integrator: SI deployment |
+| wso2.deployment.hostname | string | `"si.wso2.com"` | Hostname of the WSO2 Integrator: SI deployment |
 | wso2.deployment.image.containerRegistry | string | `"docker.io"` | Container registry (When running on a local Kubernetes cluster using local image, make this empty) |
 | wso2.deployment.image.digest | string | `""` | Container image digest |
 | wso2.deployment.image.pullPolicy | string | `"IfNotPresent"` | Container image pull policy. Refer (https://kubernetes.io/docs/concepts/containers/images/#updating-images) |

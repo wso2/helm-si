@@ -1,8 +1,8 @@
-# Helm chart for the deployment of WSO2 Streaming Integrator
+# Helm chart for the deployment of WSO2 Integrator: SI
 
 ![Version: 4.4.0-0](https://img.shields.io/badge/Version-4.4.0--0-informational?style=flat-square) ![AppVersion: 4.4.0](https://img.shields.io/badge/AppVersion-4.4.0-informational?style=flat-square)
 
-This module contains the Helm resources required to deploy WSO2 Streaming Integrator in a Kubernetes environment.
+This module contains the Helm resources required to deploy WSO2 Integrator: SI in a Kubernetes environment.
 
 ## Prerequisites
 

@@ -19,7 +19,7 @@ wso2.carbon:
     # value to uniquely identify a server
   id: "$(HOSTNAME)"
     # server name
-  name: WSO2 Streaming Integrator
+  name: "WSO2 Integrator: SI"
     # server type
   type: wso2-si
     # ports used by this server

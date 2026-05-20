@@ -11,7 +11,7 @@
 
 apiVersion: v1
 appVersion: "4.4.0"
-description: A Helm chart for the deployment of WSO2 Streaming Integrator
+description: "A Helm chart for the deployment of WSO2 Integrator: SI"
 name: si
 version: 4.4.0-0
 icon: https://wso2.cachefly.net/wso2/sites/all/images/wso2logo.svg
