@@ -129,7 +129,7 @@ A Helm chart for the deployment of WSO2 Integrator: SI
 | wso2.gatewayApi.rateLimit.requests | int | `100` | Maximum number of requests allowed per unit |
 | wso2.gatewayApi.rateLimit.unit | string | `"Second"` | Time unit for rate limiting (Second, Minute, Hour) |
 | wso2.ingress.annotations | list | `nil` | Ingress annotations |
-| wso2.ingress.backendProtocol | string | `"AUTO_HTTP"` | Controls how the Ingress communicates with backend services |
+| wso2.ingress.backendProtocol | string | `"HTTPS"` | Protocol the NGINX Ingress Controller uses to connect to SI. SI serves the routed port (msf4jHttps) over HTTPS only. |
 | wso2.ingress.enabled | bool | `true` | Enable Ingress for SI |
 | wso2.ingress.ingressClassName | string | `"nginx"` | Ingress class name |
 | wso2.ingress.ratelimit.burstLimit | string | `""` | Ingress ratelimit burst limit |
