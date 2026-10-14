@@ -114,8 +114,8 @@ wso2:
     annotations:
     # -- K8s TLS secret for configured hostname
     tlsSecret: ""
-    # -- Controls how the Ingress communicates with backend services
-    backendProtocol: "AUTO_HTTP"
+    # -- Protocol the NGINX Ingress Controller uses to connect to SI. SI serves the routed port (msf4jHttps) over HTTPS only.
+    backendProtocol: "HTTPS"
     # -- Controls how the  redirection of HTTPS if TLS is enabled for that ingress.
     sslRedirect: "false"
     ratelimit:
