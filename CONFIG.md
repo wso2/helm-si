@@ -1,6 +1,6 @@
 # si
 
-![Version: 4.4.0-0](https://img.shields.io/badge/Version-4.4.0--0-informational?style=flat-square) ![AppVersion: 4.4.0](https://img.shields.io/badge/AppVersion-4.4.0-informational?style=flat-square)
+![Version: 4.4.1-0](https://img.shields.io/badge/Version-4.4.1--0-informational?style=flat-square) ![AppVersion: 4.4.1](https://img.shields.io/badge/AppVersion-4.4.1-informational?style=flat-square)
 
 A Helm chart for the deployment of WSO2 Integrator: SI
 
@@ -87,7 +87,7 @@ A Helm chart for the deployment of WSO2 Integrator: SI
 | wso2.config.transport.http.msf4jHttps | int | `9443` |  |
 | wso2.config.trustStore.primary.fileName | string | `"client-truststore.jks"` | Primary truststore file name |
 | wso2.config.trustStore.primary.password | string | `""` | Primary truststore password |
-| wso2.deployment.BuildVersion | string | `"4.4.0"` | Build version of WSO2 Integrator: SI |
+| wso2.deployment.BuildVersion | string | `"4.4.1"` | Build version of WSO2 Integrator: SI |
 | wso2.deployment.JKSSecretName | string | `""` | K8s secret name which contains JKS files |
 | wso2.deployment.envs | list | `nil` | Environment variables for the WSO2 Integrator: SI deployment |
 | wso2.deployment.hostname | string | `"si.wso2.com"` | Hostname of the WSO2 Integrator: SI deployment |
@@ -95,7 +95,7 @@ A Helm chart for the deployment of WSO2 Integrator: SI
 | wso2.deployment.image.digest | string | `""` | Container image digest |
 | wso2.deployment.image.pullPolicy | string | `"IfNotPresent"` | Container image pull policy. Refer (https://kubernetes.io/docs/concepts/containers/images/#updating-images) |
 | wso2.deployment.image.repository | string | `"wso2/wso2si"` | Container image repository name |
-| wso2.deployment.image.tag | string | `"4.4.0-ubuntu"` | Container image tag |
+| wso2.deployment.image.tag | string | `"4.4.1-ubuntu"` | Container image tag |
 | wso2.deployment.imagePullSecrets | string | `""` | imagePullSecrets for private docker registry |
 | wso2.deployment.mountSiddhiApps | bool | `false` |  |
 | wso2.deployment.probes.livenessProbe.initialDelaySeconds | int | `60` |  |
